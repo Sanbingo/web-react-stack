@@ -1,0 +1,56 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/prefer-stateless-function */
+import React from 'react';
+import {
+  Table,
+} from 'antd';
+import PropTypes from 'prop-types';
+
+class StationComponent extends React.Component {
+  handleClick = () => {
+    const {
+      searchData,
+    } = this.props;
+    searchData({
+      name: 'sanbingo',
+    });
+  }
+
+  render() {
+    const dataSource = [{
+      key: '1',
+      name: '胡彦斌',
+      age: 32,
+      address: '西湖区湖底公园1号',
+    }, {
+      key: '2',
+      name: '胡彦祖',
+      age: 42,
+      address: '西湖区湖底公园1号',
+    }];
+
+    const columns = [{
+      title: '姓名',
+      dataIndex: 'name',
+      key: 'name',
+    }, {
+      title: '年龄',
+      dataIndex: 'age',
+      key: 'age',
+    }, {
+      title: '住址',
+      dataIndex: 'address',
+      key: 'address',
+    }];
+    return (
+      <Table dataSource={dataSource} columns={columns} />
+    );
+  }
+}
+
+export default StationComponent;
+
+StationComponent.propTypes = {
+  searchData: PropTypes.func.isRequired,
+};
