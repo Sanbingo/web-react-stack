@@ -1,8 +1,11 @@
+/* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/no-array-index-key */
 import React, {
   Suspense,
   // lazy,
 } from 'react';
+import Loadable from 'react-loadable';
+import path from 'path';
 import {
   BrowserRouter as Router,
   Link,
@@ -18,7 +21,13 @@ const contextRoute = require.context('../../pages', true, /config(s)?\.js$/);
 
 // routes可以导出，在外部设置菜单
 export const routes = contextRoute.keys().map((item) => {
-  const component = contextRoute(item).default;
+  // 没有使用动态路由，但项目变得越来越大，组件越来越多，最终打包出来的js可能会变得很大，甚至变得不可控
+  // const component = contextRoute(item).default;
+  // 第一步需要优化的是代码拆分（code-splitting）使用react-loadable动态加载路由。
+  const component = Loadable({
+    loader: () => import(`../../pages/${item.replace(/config/g, 'container').replace(/\.\//g, '')}`),
+    loading: () => <p> Loading... </p>,
+  });
   const { ROUTE, TITLE } = contextRoute(item);
   // todo: 自动注册并动态路由
   // const lazyPath = path.resolve('../../pages', item)

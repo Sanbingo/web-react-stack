@@ -17,6 +17,7 @@ module.exports = {
   output: {
     filename: 'js/[name].[hash].js',
     path: path.resolve(ROOT_PATH, 'build'),
+    publicPath: '/',
   },
   resolve: {
     alias: {
@@ -73,6 +74,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'web-react-pratice',
       template: path.resolve(ROOT_PATH, 'index.html'),
+      filename: path.resolve(ROOT_PATH, 'server/template/index.html'),
     }),
   ],
   optimization: {

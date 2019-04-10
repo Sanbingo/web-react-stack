@@ -14,6 +14,7 @@ import {
   Form,
   Input,
   Button,
+  Table,
 } from 'antd';
 
 class MyComponent extends React.Component {
@@ -21,6 +22,16 @@ class MyComponent extends React.Component {
     label: '姓名',
     required: true,
   }, Input)
+
+  columns = [{
+    key: 'name',
+    title: '姓名',
+    dataIndex: 'name',
+  }, {
+    key: 'age',
+    title: '年龄',
+    dataIndex: 'age',
+  }]
 
   handleSubmit = (e) => {
     const {
@@ -34,13 +45,13 @@ class MyComponent extends React.Component {
       if (err) {
         return err;
       }
-      // console.log('fieldsValue', fieldsValue);
       queryData(fieldsValue);
       return fieldsValue;
     });
   }
 
   render() {
+    const { tableData } = this.props;
     return (
       <Card>
         <Form layout="horizontal" onSubmit={this.handleSubmit}>
@@ -49,6 +60,7 @@ class MyComponent extends React.Component {
             <Button type="primary" htmlType="submit">查询</Button>
           </Form.Item>
         </Form>
+        <Table columns={this.columns} dataSource={tableData} />
       </Card>
     );
   }
@@ -62,4 +74,5 @@ export default FormCreate({
 MyComponent.propTypes = {
   form: PropTypes.object.isRequired,
   queryData: PropTypes.func.isRequired,
+  tableData: PropTypes.array.isRequired,
 };
