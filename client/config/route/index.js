@@ -5,7 +5,10 @@ import React, {
   // lazy,
 } from 'react';
 import Loadable from 'react-loadable';
-import path from 'path';
+import {
+  Layout,
+  Menu,
+} from 'antd';
 import {
   BrowserRouter as Router,
   Link,
@@ -14,6 +17,13 @@ import {
 } from 'react-router-dom';
 // import path from 'path';
 import ErrorBoundary from './boundary';
+
+// 布局
+const {
+  Header,
+  Sider,
+  Content,
+} = Layout;
 
 // done: 自动注册，遍历目录中的config.js文件进行配置
 // todo: 嵌套路由，需要解决命名空间的问题。
@@ -89,9 +99,9 @@ export const RouteWithSubRoutes = route => (
 // 跳转链接
 const RouteLinkWithPath = (route = []) => (
   <nav>
-    <ul>
-      {route.map(item => <li key={item.path}><Link to={item.path}>{item.name}</Link></li>)}
-    </ul>
+    <Menu theme="dark">
+      {route.map(item => <Menu.Item key={item.path}><Link to={item.path}>{item.name}</Link></Menu.Item>)}
+    </Menu>
   </nav>
 );
 
@@ -99,13 +109,21 @@ export const App = () => (
   <ErrorBoundary>
     <Router>
       <Suspense fallback={<div> Loading... </div>}>
-        {RouteLinkWithPath(routes)}
-        <Switch>
-          {
-            routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)
-          }
-          <Route component={NoMatch} />
-        </Switch>
+        <Layout>
+          <Sider>
+            {RouteLinkWithPath(routes)}
+          </Sider>
+          <Layout>
+            <Content>
+              <Switch>
+                {
+                  routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)
+                }
+                <Route component={NoMatch} />
+              </Switch>
+            </Content>
+          </Layout>
+        </Layout>
       </Suspense>
     </Router>
   </ErrorBoundary>
